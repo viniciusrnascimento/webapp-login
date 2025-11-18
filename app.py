@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request,redirect, url_for
-from flask_login import LoginManager
+from flask_login import LoginManager, login_user
 from models import Usuario
 from db import db
 
@@ -28,6 +28,8 @@ def registrar():
         novo_usuario = Usuario(nome=nome, senha=senha)
         db.session.add(novo_usuario)
         db.session.commit()
+
+        login_user(novo_usuario)
 
         return redirect(url_for('home'))
 
