@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request,redirect, url_for
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, login_required
 from models import Usuario
 from db import db
 
 app = Flask(__name__)
+app.secret_key = 'Vinicius'
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
 lm = LoginManager(app)
 db.init_app(app)
@@ -14,8 +15,18 @@ def user_loader(id):
     return usuario
 
 @app.route('/')
+
 def home():
     return render_template('home.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        nome = request.form['nomeFOrm']
+        senha = request.form['senhaForm']
+
 
 @app.route('/registrar', methods=['GET', 'POST'])
 def registrar():
