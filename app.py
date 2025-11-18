@@ -1,11 +1,17 @@
-from flask import Flask, render_template, request,redirect
+from flask import Flask, render_template, request,redirect, url_for
+from flask_login import LoginManager
 from models import Usuario
 from db import db
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
-
+lm = LoginManager(app)
 db.init_app(app)
+
+@lm.user_loader
+def user_loader(id):
+    usuario = db.session.query(Usuario).filter_by(id=id).first()
+    return usuario
 
 @app.route('/')
 def home():
@@ -22,6 +28,8 @@ def registrar():
         novo_usuario = Usuario(nome=nome, senha=senha)
         db.session.add(novo_usuario)
         db.session.commit()
+
+        return redirect(url_for('home'))
 
 if __name__ == '__main__':
     with app.app_context():
