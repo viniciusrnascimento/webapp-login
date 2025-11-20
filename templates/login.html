@@ -3,13 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=<>, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <Form action="" method="post">
-        Nome: <input type="text" name="nomeForm" id=""><br>
-        Senha: <input type="password" name="senhaForm" id=""><br>
-        <input type="submit" value="Login">
-    </Form>
+
+    <div class="container">
+    <div class="quadrado-login">
+    <h1 class="h1-login">LOGIN</h1>
+
+     <p class="texto-conta">Digite seus dados no campo abaixo.</p>
+
+    <form action="" method="post" class="form-login">
+        <label for="usuario">Usuário</label>
+            <input type="text" id="usuario" name="nomeForm" placeholder="Digite seu usuário">
+
+        <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senhaForm" placeholder="Digite sua senha">
+
+    <button type="submit" value="Login" class="btn-login">Login</button>
+</form>
+
+
+    <a href="registrar">
+        <p class="texto-conta">Criar uma conta</p>
+    </a>
+    </div>
+    </div>
 </body>
 </html>

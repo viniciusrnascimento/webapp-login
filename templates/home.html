@@ -3,13 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
 </head>
 <body>
-    <h1>OPA, {{current_user.nome}}</h1>
 
-    <a href="registrar">
-    <input type="button" value="Cadastrar">
-    </a>
+<div class="container">
+ <div class="quadrado">
+    <h1 class="h1-home">Olá, {{current_user.nome}}. Você está logado!</h1>
+
+    <form action="{{ url_for('logout') }}" method="get">
+        <button type="submit" class="btn">Logout</button>
+    </form>
+</div>
+</div>
+
 </body>
 </html>
