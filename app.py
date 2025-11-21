@@ -25,44 +25,38 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-        if request.method == 'GET':
-            return render_template('login.html')
+    if request.method == 'GET':
+        return render_template('login.html')
 
-        nome = request.form['nomeForm']
-        senha = request.form['senhaForm']
+    nome = request.form['nomeForm']
+    senha = request.form['senhaForm']
 
-        user = db.session.query(Usuario).filter_by(nome=nome, senha=senha).first()
+    user = db.session.query(Usuario).filter_by(nome=nome, senha=senha).first()
 
-        if not user:
-            return 'Nome ou senha incorretos'
+    if not user:
+        return 'Nome ou senha incorretos'
 
-        login_user(user)
-        return redirect(url_for('home'))
+    login_user(user)
+    return redirect(url_for('home'))
 
 
 @app.route('/registrar', methods=['GET', 'POST'])
 def registrar():
-        if request.method == 'GET':
-            return render_template('registrar.html')
+    if request.method == 'GET':
+        return render_template('registrar.html')
 
-        nome = request.form['nomeForm']
-        senha = request.form['senhaForm']
+    nome = request.form['nomeForm']
+    senha = request.form['senhaForm']
 
-        novo_usuario = Usuario(nome=nome, senha=senha)
-        db.session.add(novo_usuario)
-        db.session.commit()
+    novo_usuario = Usuario(nome=nome, senha=senha)
+    db.session.add(novo_usuario)
+    db.session.commit()
 
-        login_user(novo_usuario)
-        return redirect(url_for('home'))
+    login_user(novo_usuario)
+    return redirect(url_for('home'))
 
 
 @app.route('/logout')
 @login_required
 def logout():
-        logout_user()
-        return redirect(url_for('login'))
-
-
-if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
+    logout_user()
