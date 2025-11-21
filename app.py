@@ -2,10 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from models import Usuario
 from db import db
+from config import Config
 
 app = Flask(__name__)
-app.secret_key = 'Vinicius'
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
+app.config.from_object(Config)
 
 lm = LoginManager(app)
 lm.login_view = 'login'
