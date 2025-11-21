@@ -14,7 +14,7 @@ db.init_app(app)
 
 @lm.user_loader
 def user_loader(id):
-    return db.session.query(Usuario).filter_by(id=id).first()
+    return Usuario.query.get(int(id))
 
 
 @app.route('/')
