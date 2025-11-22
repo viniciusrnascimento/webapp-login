@@ -1,29 +1,15 @@
 #!/bin/bash
-# startup.sh - instala ODBC Driver 18 e inicia Gunicorn com wsgi.py
+# startup.sh
 
-# Atualiza pacotes
-apt-get update
+# Atualiza certificados CA
+sudo update-ca-certificates
 
-# Instala dependências básicas
-apt-get install -y curl apt-transport-https gnupg lsb-release
+# Instala dependências do ODBC Driver 18
+sudo apt-get update
+sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18 unixodbc-dev
 
-# Adiciona chave Microsoft
-curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+# Ativa o virtual environment
+source /home/site/wwwroot/antenv/bin/activate
 
-# Adiciona repositório do Microsoft ODBC
-DISTRO=$(lsb_release -is | tr '[:upper:]' '[:lower:]')
-VERSION=$(lsb_release -rs)
-echo "deb [arch=amd64] https://packages.microsoft.com/ubuntu/${VERSION}/prod ${DISTRO} main" > /etc/apt/sources.list.d/mssql-release.list
-
-# Atualiza pacotes novamente
-apt-get update
-
-# Instala ODBC Driver 18
-ACCEPT_EULA=Y apt-get install -y msodbcsql18 unixodbc-dev
-
-# Confirma instalação
-echo "ODBC Drivers instalados:"
-python3 -c "import pyodbc; print(pyodbc.drivers())"
-
-# Inicia Gunicorn apontando para wsgi.py
-exec gunicorn --bind 0.0.0.0:8000 wsgi:app
+# Inicia o Gunicorn
+gunicorn --chdir /home/site/wwwroot --bind=0.0.0.0:8000 wsgi:application
